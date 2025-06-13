@@ -1,14 +1,24 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Request,
+  UseGuards,
+  UsePipes,
+} from '@nestjs/common';
 import { Request as ExpressRequest } from 'express';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { RefreshTokenGuard } from 'src/security/guards/refresh-token.guard';
 import { AuthService } from './auth.service';
 import { LoginDTO, RefreshTokenDTO } from './dto/auth.dto';
+import { LoginSchema } from './schemas/login.schema';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  @UsePipes(new ZodValidationPipe(LoginSchema))
   login(@Body() body: LoginDTO) {
     return this.authService.login(body);
   }
