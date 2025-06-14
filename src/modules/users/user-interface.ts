@@ -3,8 +3,8 @@ import {
   CreatedUserDTO,
 } from '../../modules/users/dto/user.dto';
 
-export interface IUserRepository {
-  create(data: CreateUserDTO): Promise<CreatedUserDTO>;
-  findByEmail(email: string): Promise<CreatedUserDTO | null>;
-  findById(id: string): Promise<CreatedUserDTO | null>;
+export abstract class IUserRepository {
+  abstract create(data: CreateUserDTO): Promise<CreatedUserDTO>;
+  abstract findByEmail(email: string): Promise<CreatedUserDTO | null>;
+  abstract findById(id: string): Promise<CreatedUserDTO | null>;
 }

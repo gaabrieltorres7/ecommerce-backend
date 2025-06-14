@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreatedUserDTO, CreateUserDTO } from 'src/modules/users/dto/user.dto';
-import { PrismaUserRepository } from 'src/modules/users/prisma/prisma-user-repository';
+import { IUserRepository } from './user-interface';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: PrismaUserRepository) {}
+  constructor(private readonly userRepository: IUserRepository) {}
 
   async create({
     email,
