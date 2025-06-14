@@ -20,5 +20,5 @@ export type UpdateProductDTO = {
   name?: string;
   description?: string;
   price?: Prisma.Decimal;
-  stock_quantity?: number;
+  stockQuantity?: number;
 };

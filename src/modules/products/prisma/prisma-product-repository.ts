@@ -82,13 +82,39 @@ export class PrismaProductRepository implements IProductRepository {
     return true;
   }
 
-  async debitStock(id: string, quantity: number): Promise<boolean> {
-    await this.prisma.product.update({
-      where: { id },
-      data: {
-        stockQuantity: quantity,
+  async updateStockForMany(
+    items: { productId: string; quantity: number }[],
+  ): Promise<boolean> {
+    if (items.length === 0) return false;
+    try {
+      await this.prisma.$transaction(
+        items.map((item) =>
+          this.prisma.product.update({
+            where: { id: item.productId },
+            data: {
+              stockQuantity: {
+                decrement: item.quantity,
+              },
+            },
+          }),
+        ),
+      );
+      return true;
+    } catch (error) {
+      console.error('Error updating stock for multiple products:', error);
+      return false;
+    }
+  }
+
+  async findManyByIds(ids: string[]): Promise<CreatedProductDTO[]> {
+    const products = await this.prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
     });
-    return true;
+
+    return products;
   }
 }

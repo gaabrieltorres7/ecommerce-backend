@@ -11,5 +11,8 @@ export abstract class IProductRepository {
   abstract findAll(query: string): Promise<CreatedProductDTO[] | null>;
   abstract update(id: string, data: UpdateProductDTO): Promise<boolean>;
   abstract delete(id: string): Promise<boolean>;
-  abstract debitStock(id: string, quantity: number): Promise<boolean>;
+  abstract updateStockForMany(
+    items: { productId: string; quantity: number }[],
+  ): Promise<boolean>;
+  abstract findManyByIds(ids: string[]): Promise<CreatedProductDTO[]>;
 }
