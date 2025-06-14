@@ -20,4 +20,45 @@ model User {
   password  String   @db.VarChar(255)
   createdAt DateTime @default(now())
   isAdmin   Boolean  @default(false)
+  Order     Order[]
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  name          String
+  description   String
+  price         Decimal
+  stockQuantity Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
+  OrderItem     OrderItem[]
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  userId      String
+  orderStatus OrderStatus @default(RECEIVED)
+  orderDate   DateTime    @default(now())
+  total       Decimal     @default(0)
+  OrderItem   OrderItem[]
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Decimal
+  subtotal  Decimal
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+enum OrderStatus {
+  RECEIVED
+  PROCESSING
+  SHIPPED
+  DELIVERED
 }
