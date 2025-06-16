@@ -25,8 +25,8 @@ Para executar o backend, siga os passos abaixo.
 
 1.  **Clone o repositório:**
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO_BACKEND>
-    cd <PASTA_DO_PROJETO>
+    git clone <link do repo>
+    cd <pasta do projeto>
     ```
 
 2.  **Configure as variáveis de ambiente:**
